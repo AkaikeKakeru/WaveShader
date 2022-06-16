@@ -52,6 +52,7 @@
 			//輝き度
 			half _Shininess;
 
+
 			//appデータ
 			struct appdata 
 			{
@@ -118,6 +119,11 @@
 			//フラグメントシェーダ
 			float4 frag(v2f i) : COLOR
 			{
+				float _ScrollSpeedX = 0.1f;
+				float _ScrollSpeedY = 0.1f;
+
+				float2 scroll = -float2(_ScrollSpeedX, _ScrollSpeedY) * _Time;
+
 				//正規化
 				i.lightDir = normalize(i.lightDir);
 				i.viewDir = normalize(i.viewDir);
@@ -127,7 +133,7 @@
 				half4 tex = tex2D(_MainTex, i.uv);
 
 				//法線
-				half3 normal = UnpackNormal(tex2D(_NormalMap, i.uv));
+				half3 normal = UnpackNormal(tex2D(_NormalMap, i.uv + scroll));
 				//UnpackNormal()
 				//[テクスチャに0〜1で書き込まれている法線情報を -1〜1 の値に変換]
 				
@@ -138,6 +144,8 @@
 				
 				//スペック
 				half3 spec = pow(max(0, dot(normal, halfDir)), _Shininess * 128.0) * _LightColor0.rgb * tex.rgb;
+
+				
 
 				//出力用の色情報colorに色々ぶち込む
 				//テクスチャ
