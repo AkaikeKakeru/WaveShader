@@ -63,16 +63,6 @@ Shader "Unlit/WaveShader"
 			{
 				 fixed4 col = tex2D(_MainTex, i.uv) * _Color;
 				UNITY_APPLY_FOG(i.fogCoord, col);
-
-				//// デフォルトのリフレクションキューブマップをサンプリングして、リフレクションベクトルを使用します
-				//half4 skyData = UNITY_SAMPLE_TEXCUBE(unity_SpecCube0, i.worldRefl);
-				//// キューブマップデータを実際のカラーにデコードします
-				//half3 skyColor = DecodeHDR(skyData, unity_SpecCube0_HDR);
-				//// 出力します
-				//fixed4 c = 0;
-				//c.rgb = skyColor;
-				//return c;
-
 				return col;
 			}
 			ENDCG
